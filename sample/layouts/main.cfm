@@ -1,0 +1,11 @@
+<cfoutput>
+<html>
+<head>
+#getMyPlugin("JSMin").minify("includes/css/style.css,includes/css/page.showHistory.css")#
+#getMyPlugin("JSMin").minify("includes/js/codex.js,includes/js/confirm.js")#
+</head>
+<body>
+#renderView()#
+</body>
+</html>
+</cfoutput>
