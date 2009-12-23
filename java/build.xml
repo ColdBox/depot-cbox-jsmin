@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="coldbox-jsmin" default="dist" basedir=".">
+
+	<property name="src" location="."/>
+	<property name="build" location="./bin"/>
+	<property name="dist" location="../lib"/>	
+    
+	<target name="compile" depends="clean" description="compile">
+		<javac srcdir="${src}" destdir="${build}" debug="true" debuglevel="lines,vars,source" target="1.5" source="1.5">
+		</javac>
+		<antcall target="jarBuild"></antcall>
+	</target>
+	    
+	<target name="dist" depends="compile" description="generate the distribution" >
+		<delete file="${dist}/coldbox-jsmin-src.zip"/>
+		<zip destfile="${dist}/coldbox-jsmin-src.zip">
+		  	<fileset dir="${src}">
+				<exclude name="**/*.class"/>
+				<exclude name="**/*._java"/>
+				<exclude name=".settings/**"/>
+				<exclude name=".classpath"/>
+				<exclude name=".project"/>
+			</fileset>
+		</zip>
+	</target>
+	  
+	<target name="jarBuild">
+		<tstamp>
+			<format property="DSTAMP" pattern="yyyyMMddHHmmss"/>
+		</tstamp>		
+		<jar jarfile="${dist}/coldbox-jsmin-${DSTAMP}.jar" basedir="${build}"/>  	
+	</target>	
+		
+	<target name="clean">
+		<delete>
+			<fileset dir="${dist}" includes="coldbox-jsmin-*.jar"/>
+		</delete>
+		<delete>
+			<fileset dir="${build}" includes="**/*.class"/>
+		</delete>
+	</target>
+	
+</project>
