@@ -203,8 +203,14 @@ location than layouts.
 					compressor = getPlugin("JavaLoader").create("org.coldbox.JSMin").init(fis,fos).jsmin();
 				}
 				catch(any e){
+					fis.close();
+					fos.close();
 					$throw("Error compression asset: #thisAsset#",e.detail & e.message & e.stackTrace, "JSMin.JavaCompressionException");
 				}
+				
+				//Close Files
+				fis.close();
+				fos.close();
 				
 				// register compressed file
 				arrayAppend(compressedFiles, tempFileName );
