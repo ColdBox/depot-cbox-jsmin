@@ -164,7 +164,9 @@ location than layouts.
 		<cfdirectory action="list" directory="#instance.cacheDiskLocation#" name="qList">
 		
 		<cfloop query="qList">
-			<cfset fileDelete(qList.directory & "/" & qList.name)>
+			<cfif qList.type neq "Dir">
+				<cfset fileDelete(qList.directory & "/" & qList.name)>
+			</cfif>
 		</cfloop>
 	</cffunction>	
 	
@@ -176,6 +178,7 @@ location than layouts.
 		<cfargument name="assets"   type="string" required="true" hint="A list of js or css files to compress and add to the page. They will be concatenated in order"/>
 		<cfset var x=1>
 		<cfset var thisAsset = "">
+		<cfset var thisType = "1">
 		<cfset var tempFileName = "">
 		<cfset var fis = "">
 		<cfset var fos = "">
@@ -190,6 +193,12 @@ location than layouts.
 			for(x=1; x lte listLen(arguments.assets); x++){
 				thisAsset = listGetAt(arguments.assets,x);
 				
+				// File Type: 1=js, 2=css
+				thisType = 1;
+				if( listLast(thisAsset,".") eq "css" ){
+					thisType = 2;
+				}
+				
 				//register temp file
 				tempFileName = instance.uuid.randomUUID() & "." & listLast(thisAsset,".");
 				
@@ -200,11 +209,17 @@ location than layouts.
 				//compress
 				try{
 					//Compress with coldbox jsmin
-					compressor = getPlugin("JavaLoader").create("org.coldbox.JSMin").init(fis,fos).jsmin();
+					compressor = getPlugin("JavaLoader").create("org.coldbox.JSMin").init(fis,fos,javaCast("int",thisType)).jsmin();
 				}
 				catch(any e){
+					fis.close();
+					fos.close();
 					$throw("Error compression asset: #thisAsset#",e.detail & e.message & e.stackTrace, "JSMin.JavaCompressionException");
 				}
+				
+				//Close Files
+				fis.close();
+				fos.close();
 				
 				// register compressed file
 				arrayAppend(compressedFiles, tempFileName );
