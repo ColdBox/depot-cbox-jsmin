@@ -57,7 +57,7 @@ location than layouts.
 			super.Init(arguments.controller);
 			
 			setpluginName("JSMin");
-			setpluginVersion("1.0");
+			setpluginVersion("1.1");
 			setpluginDescription("A plugin that minifies js/css files");
 			setpluginAuthor("Luis Majano");
 			setpluginAuthorURL("http://www.coldbox.org");
