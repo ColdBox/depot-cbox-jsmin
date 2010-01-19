@@ -191,7 +191,7 @@ location than layouts.
 		<cfscript>
 			//Compress and cache files
 			for(x=1; x lte listLen(arguments.assets); x++){
-				thisAsset = listGetAt(arguments.assets,x);
+				thisAsset = trim(listGetAt(arguments.assets,x));
 				
 				// File Type: 1=js, 2=css
 				thisType = 1;

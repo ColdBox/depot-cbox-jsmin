@@ -57,7 +57,7 @@ location than layouts.
 			super.Init(arguments.controller);
 			
 			setpluginName("JSMin");
-			setpluginVersion("1.0");
+			setpluginVersion("1.1");
 			setpluginDescription("A plugin that minifies js/css files");
 			setpluginAuthor("Luis Majano");
 			setpluginAuthorURL("http://www.coldbox.org");
@@ -162,7 +162,7 @@ location than layouts.
 		<cfset var qList = "">
 		
 		<cfdirectory action="list" directory="#instance.cacheDiskLocation#" name="qList">
-		
+			
 		<cfloop query="qList">
 			<cfif qList.type neq "Dir">
 				<cfset fileDelete(qList.directory & "/" & qList.name)>
@@ -191,7 +191,7 @@ location than layouts.
 		<cfscript>
 			//Compress and cache files
 			for(x=1; x lte listLen(arguments.assets); x++){
-				thisAsset = listGetAt(arguments.assets,x);
+				thisAsset = trim(listGetAt(arguments.assets,x));
 				
 				// File Type: 1=js, 2=css
 				thisType = 1;
