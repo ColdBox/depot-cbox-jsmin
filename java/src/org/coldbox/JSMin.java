@@ -221,7 +221,9 @@ public class JSMin {
 			if( getFileType() == CSS){
 				if( theB == '-' || 
 					(theB == '.' && theA != '\n') ||
-					(theB == '#' && theA != '\n')
+					(theB == '#' && theA != '\n') ||
+					(theB == ')' && theA != '\n') ||
+					(theB == '%' && theA != '\n')
 				){
 					out.write(theA);
 					out.write(theB);
@@ -318,7 +320,7 @@ public class JSMin {
 
 	public static void main(String arg[]) {
 		try {
-			InputStream fin = JSMin.class.getResourceAsStream("global.css");
+			InputStream fin = JSMin.class.getResourceAsStream("test.css");
 			JSMin jsmin = new JSMin(fin, System.out, JSMin.CSS);
 			jsmin.jsmin();
 		} 

@@ -14,6 +14,7 @@ p #right a {
 }
 .header[title="hello this"]{
 	float: left;
+	background: url('/images/tabs/headerbackground.png') repeat-x 50px 0 5em;
 }
 .header-pio #right a {
    color: #ffffff;
