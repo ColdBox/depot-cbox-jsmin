@@ -20,4 +20,8 @@ p #right a {
    display: block;
    text-decoration: none;
    margin: 10px 0px 10px -50px;
+   background: url('/images/tabs/headerbackground.png') repeat-x 50% 0;
+}
+#test{
+	background: #FFF url('/images/tabs/headerbackground.png') repeat-x center;
 }
