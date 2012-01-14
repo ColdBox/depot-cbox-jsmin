@@ -1,4 +1,3 @@
-
 function doFormEvent(e,targetID,frm){var params={};for(i=0;i<frm.length;i++){if(!(frm[i].type=="radio"&&!frm[i].checked)&&frm[i].value!=undefined){params[frm[i].name]=frm[i].value;}}
 doEvent(e,targetID,params,"POST");}
 function doEvent(route,targetID,params,methodType,onComplete){var pars="";var methodType=(methodType==null)?"GET":methodType;var onComplete=(onComplete==null)?global_onComplete:onComplete;for(p in params)pars=pars+p+"="+escape(params[p])+"&";$.ajax({type:methodType,url:route,dataType:"html",data:pars,error:global_onError,complete:onComplete,success:function(req){$("#"+targetID).html(req)}});}

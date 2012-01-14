@@ -57,10 +57,10 @@ location than layouts.
 			super.Init(arguments.controller);
 			
 			setpluginName("JSMin");
-			setpluginVersion("1.4");
+			setpluginVersion("1.5");
 			setpluginDescription("A plugin that minifies js/css files");
 			setpluginAuthor("Luis Majano");
-			setpluginAuthorURL("http://www.coldbox.org");
+			setpluginAuthorURL("http://www.ortussolutions.com");
 			
 			//Check settings
 			if( not settingExists("jsmin_cacheLocation") ){
@@ -127,7 +127,7 @@ location than layouts.
 	<cffunction name="renderLinks" output="false" access="public" returntype="string" hint="Renders links according to passed in assets">
 		<cfargument name="assets"  type="string" required="false" default="" hint="A list of js/css files to compress and add to the page"/>
 		<cfscript>
-			var sb = createObject("java","java.lang.StringBuffer").init('');
+			var sb = createObject("java","java.lang.StringBuilder").init('');
 			var x = 1;
 			var thisAsset = "";
 			var event = controller.getRequestService().getContext();
@@ -225,23 +225,18 @@ location than layouts.
 				arrayAppend(compressedFiles, tempFileName );
 			}
 			
-			// Concatenate Files into a single compressed one, if more than 1
-			if( arrayLen(compressedFiles) gt 1){
-				sb = createObject("java","java.lang.StringBuffer").init('');
-				tempFileName = instance.uuid.randomUUID() & "." & listLast(compressedFiles[1],".");
-				
-				for(x=1; x lte arrayLen(compressedFiles); x++){
-					sb.append( fileRead(instance.cacheDiskLocation & "/" & compressedFiles[x]) );
-					fileDelete(instance.cacheDiskLocation & "/" & compressedFiles[x]);
-				}
-				
-				//write out buffer
-				fileWrite(instance.cacheDiskLocation & "/" & tempFileName, sb.toString());
-				returnAsset = tempFileName;
+			// Concatenate Files into a single compressed one
+			sb = createObject("java","java.lang.StringBuilder").init('');
+			tempFileName = hash(sb.toString(), "MD5") & "." & listLast(compressedFiles[1],".");
+			 
+			for(x=1; x lte arrayLen(compressedFiles); x++){
+				sb.append( fileRead(instance.cacheDiskLocation & "/" & compressedFiles[x]) );
+				fileDelete(instance.cacheDiskLocation & "/" & compressedFiles[x]);
 			}
-			else{
-				returnAsset = compressedFiles[1];
-			}
+			
+			//write out buffer
+			fileWrite(instance.cacheDiskLocation & "/" & tempFileName, trim( sb.toString() ));
+			returnAsset = tempFileName;
 		</cfscript>
 		</cflock>
 	
