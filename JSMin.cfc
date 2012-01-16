@@ -227,13 +227,14 @@ location than layouts.
 			
 			// Concatenate Files into a single compressed one
 			sb = createObject("java","java.lang.StringBuilder").init('');
-			tempFileName = hash(sb.toString(), "MD5") & "." & listLast(compressedFiles[1],".");
-			 
+
 			for(x=1; x lte arrayLen(compressedFiles); x++){
 				sb.append( fileRead(instance.cacheDiskLocation & "/" & compressedFiles[x]) );
 				fileDelete(instance.cacheDiskLocation & "/" & compressedFiles[x]);
 			}
-			
+
+			tempFileName = hash(sb.toString(), "MD5") & "." & listLast(compressedFiles[1],".");
+
 			//write out buffer
 			fileWrite(instance.cacheDiskLocation & "/" & tempFileName, trim( sb.toString() ));
 			returnAsset = tempFileName;
