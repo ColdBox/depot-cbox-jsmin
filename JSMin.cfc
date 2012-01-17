@@ -57,7 +57,7 @@ location than layouts.
 			super.Init(arguments.controller);
 			
 			setpluginName("JSMin");
-			setpluginVersion("1.5");
+			setpluginVersion("1.6");
 			setpluginDescription("A plugin that minifies js/css files");
 			setpluginAuthor("Luis Majano");
 			setpluginAuthorURL("http://www.ortussolutions.com");
@@ -233,6 +233,7 @@ location than layouts.
 				fileDelete(instance.cacheDiskLocation & "/" & compressedFiles[x]);
 			}
 
+			// Create concatenated file according to content.
 			tempFileName = hash(sb.toString(), "MD5") & "." & listLast(compressedFiles[1],".");
 
 			//write out buffer

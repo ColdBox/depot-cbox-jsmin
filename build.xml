@@ -12,6 +12,9 @@
 	</target>
 		
 	<target name="do.archive" depends="cleanALL">
+		
+		<copy file="JSmin.cfc" tofile="sample/plugins/JSMin.cfc" overwrite="true" />
+		
 		<zip destfile="${build.label}.zip">
 			<fileset dir=".">
 				<exclude name="build.xml"/>
