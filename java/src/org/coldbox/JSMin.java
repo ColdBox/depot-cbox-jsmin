@@ -225,7 +225,8 @@ public class JSMin {
 					(theB == '.' && theA != '\n') ||
 					(theB == '#' && theA != '\n') ||
 					(theB == ')' && theA != '\n') ||
-					(theB == '%' && theA != '\n')
+					(theB == '%' && theA != '\n') ||
+					(theB == ']' && theA != '\n')
 				){
 					out.write(theA);
 					out.write(theB);

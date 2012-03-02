@@ -12,8 +12,14 @@
 	</target>
 		
 	<target name="do.archive" depends="cleanALL">
-		
+		<delete dir="samples/plugins/lib" />
+		<mkdir dir="samples/plugins/lib" />
+		<copy todir="sample/plugins/lib" overwrite="true">
+			<fileset dir="lib" />
+		</copy>
 		<copy file="JSmin.cfc" tofile="sample/plugins/JSMin.cfc" overwrite="true" />
+		<copy file="readme.txt" tofile="sample/plugins/readme.txt" overwrite="true" />
+		<copy file="APACHE_LICENSE.TXT" tofile="sample/plugins/APACHE_LICENSE.TXT" overwrite="true" />
 		
 		<zip destfile="${build.label}.zip">
 			<fileset dir=".">

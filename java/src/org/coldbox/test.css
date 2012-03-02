@@ -16,6 +16,10 @@ p #right a {
 	float: left;
 	background: url('/images/tabs/headerbackground.png') repeat-x 50px 0 5em;
 }
+.header[title="hello this"] p{
+	float: left;
+	background: url('/images/tabs/headerbackground.png') repeat-x 50px 0 5em;
+}
 .header-pio #right a {
    color: #ffffff;
    display: block;

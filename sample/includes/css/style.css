@@ -214,7 +214,7 @@ input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover {
  background: #FFFFF0;
  border: 1px inset #ccc;
 }
-input[type=button][disabled], input[type=submit][disabled],input[type=reset][disabled] {
+input[type=button][disabled], input[type=submit][disabled],input[type=reset][disabled], input[type=reset][disabled] p {
  background: #f6f6f6;
  color: #999;
 }

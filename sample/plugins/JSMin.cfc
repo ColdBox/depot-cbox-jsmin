@@ -12,12 +12,12 @@ css and js files.
 
 Configuration Settings Needed:
 
-jsmin_enable : boolean (true) 
+jsmin_enable : boolean (true)
 	- flag to enable disable the packaging process
-jsmin_cacheLocation : string 
+jsmin_cacheLocation : string
 	- the relative file location where cached minified js/css files will be stored,
-	  this location will be expanded	
-	  
+	  this location will be expanded
+
 Usage:
 
 * minify(assets:string) : html script or link
@@ -55,13 +55,13 @@ location than layouts.
 		<!--- ************************************************************* --->
 		<cfscript>
 			super.Init(arguments.controller);
-			
+
 			setpluginName("JSMin");
-			setpluginVersion("1.6");
+			setpluginVersion("1.7");
 			setpluginDescription("A plugin that minifies js/css files");
 			setpluginAuthor("Luis Majano");
 			setpluginAuthorURL("http://www.ortussolutions.com");
-			
+
 			//Check settings
 			if( not settingExists("jsmin_cacheLocation") ){
 				$throw(message="jsmin_cacheLocation setting is not defined.",type="JSMin.InvalidSetting");
@@ -69,21 +69,21 @@ location than layouts.
 			if( not settingExists("jsmin_enable") ){
 				setSetting("jsmin_enable",true);
 			}
-			
+
 			//local properties
 			instance.cacheMap = {};
 			instance.uuid = createobject("java", "java.util.UUID");
 			instance.cacheDiskLocation = expandPath(getSetting("jsmin_cacheLocation"));
 			instance.cacheIncludeLocation = getSetting("jsmin_cacheLocation");
-			
+
 			//load jar
 			getPlugin("JavaLoader").appendPaths(getDirectoryFromPath(getMetaData(this).path) & "lib");
-			
+
 			//clean cachelocation
 			cleanCache();
-			
+
 			return this;
-		</cfscript>			
+		</cfscript>
 	</cffunction>
 
 <!------------------------------------------- PUBLIC ------------------------------------------->
@@ -101,28 +101,28 @@ location than layouts.
 		<cfscript>
 			var cacheKey = hash(lcase(arguments.assets));
 			var cachedFile = "";
-			
+
 			//enabled?
 			if( not getSetting("jsmin_enable") ){
 				return renderLinks(arguments.assets);
 			}
-			
+
 			//check if assets already in cachemap
 			if( structKeyExists(instance.cacheMap,cacheKey) ){
 				return renderLinks(instance.cacheMap[cacheKey]);
 			}
-			
+
 			//compress assets
 			cachedFile = jsmin(cacheKey,arguments.assets);
-			
+
 			// save in cache map
 			instance.cacheMap[cacheKey] = instance.cacheIncludeLocation & "/" & cachedFile;
-			
+
 			//return rendered cache links
 			return renderLinks(instance.cacheMap[cacheKey]);
 		</cfscript>
 	</cffunction>
-	
+
 	<!--- renderLinks --->
 	<cffunction name="renderLinks" output="false" access="public" returntype="string" hint="Renders links according to passed in assets">
 		<cfargument name="assets"  type="string" required="false" default="" hint="A list of js/css files to compress and add to the page"/>
@@ -131,15 +131,15 @@ location than layouts.
 			var x = 1;
 			var thisAsset = "";
 			var event = controller.getRequestService().getContext();
-			
+
 			// request assets storage
 			event.paramValue(name="jsmin_assets",value="",private=true);
-			
+
 			for(x=1; x lte listLen(arguments.assets); x=x+1){
 				thisAsset = listGetAt(arguments.assets,x);
 				// Is asset already loaded
 				if( NOT listFindNoCase(event.getValue(name="jsmin_assets",private=true),thisAsset) ){
-					
+
 					// Load Asset
 					if( listLast(thisAsset,".") eq "js" ){
 						sb.append('<script src="#thisAsset#" type="text/javascript"></script>');
@@ -147,29 +147,29 @@ location than layouts.
 					else{
 						sb.append('<link href="#thisAsset#" type="text/css" rel="stylesheet" />');
 					}
-					
+
 					// Store It as Loaded
 					event.setValue(name="jsmin_assets",value=listAppend(event.getValue(name="jsmin_assets",private=true),thisAsset),private=true);
 				}
 			}
-			
+
 			return sb.toString();
 		</cfscript>
 	</cffunction>
-	
+
 	<!--- cleanCache --->
 	<cffunction name="cleanCache" output="false" access="public" returntype="void" hint="Clean the cache location">
 		<cfset var qList = "">
-		
+
 		<cfdirectory action="list" directory="#instance.cacheDiskLocation#" name="qList">
-			
+
 		<cfloop query="qList">
 			<cfif qList.type neq "Dir">
 				<cfset fileDelete(qList.directory & "/" & qList.name)>
 			</cfif>
 		</cfloop>
-	</cffunction>	
-	
+	</cffunction>
+
 <!------------------------------------------- PRIVATE ------------------------------------------>
 
 	<!--- jsmin --->
@@ -186,26 +186,26 @@ location than layouts.
 		<cfset var compressedFiles = []>
 		<cfset var sb = "">
 		<cfset var returnAsset = "">
-		
+
 		<cflock name="jsmin.#arguments.cacheKey#" type="exclusive" timeout="20" throwOntimeout="true">
 		<cfscript>
 			//Compress and cache files
 			for(x=1; x lte listLen(arguments.assets); x++){
 				thisAsset = trim(listGetAt(arguments.assets,x));
-				
+
 				// File Type: 1=js, 2=css
 				thisType = 1;
 				if( listLast(thisAsset,".") eq "css" ){
 					thisType = 2;
 				}
-				
+
 				//register temp file
 				tempFileName = instance.uuid.randomUUID() & "." & listLast(thisAsset,".");
-				
+
 				// create inputs and outputs for compression
 				fis = createObject("java","java.io.FileInputStream").init(expandPath(thisAsset));
 				fos = createObject("java","java.io.FileOutputStream").init(instance.cacheDiskLocation & "/" & tempFileName );
-			
+
 				//compress
 				try{
 					//Compress with coldbox jsmin
@@ -216,15 +216,15 @@ location than layouts.
 					fos.close();
 					$throw("Error compression asset: #thisAsset#",e.detail & e.message & e.stackTrace, "JSMin.JavaCompressionException");
 				}
-				
+
 				//Close Files
 				fis.close();
 				fos.close();
-				
+
 				// register compressed file
 				arrayAppend(compressedFiles, tempFileName );
 			}
-			
+
 			// Concatenate Files into a single compressed one
 			sb = createObject("java","java.lang.StringBuilder").init('');
 
@@ -241,7 +241,7 @@ location than layouts.
 			returnAsset = tempFileName;
 		</cfscript>
 		</cflock>
-	
+
 		<cfreturn returnAsset>
 	</cffunction>
 </cfcomponent>

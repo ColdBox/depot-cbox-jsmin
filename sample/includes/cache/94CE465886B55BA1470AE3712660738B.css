@@ -27,7 +27,7 @@ label.light{display:inline;font-weight:normal;}
 input{padding:2px;border:1px solid #eee;font:normal 1em Verdana,sans-serif;color:#333;}
 input[type=button],input[type=submit],input[type=reset]{margin:0;font-size:100%;font-family:Arial,Sans-serif;border:1px solid #CCC;background:#FFFFFF url(../images/headerbg.gif) repeat-x bottom left;padding:5px;font-weight:bold;color:#333;cursor:pointer;-moz-border-radius:5px;-webkit-border-radius:5px;-khtml-border-radius:5px;}
 input[type=button]:hover,input[type=submit]:hover,input[type=reset]:hover{background:#FFFFF0;border:1px inset #ccc;}
-input[type=button][disabled],input[type=submit][disabled],input[type=reset][disabled]{background:#f6f6f6;color:#999;}
+input[type=button][disabled],input[type=submit][disabled],input[type=reset][disabled],input[type=reset][disabled] p{background:#f6f6f6;color:#999;}
 input[disabled]:hover{background:#f6f6f6;color:#999;}
 fieldset{background-color:#f5f5f5;border:1px solid #ddd;margin:10px;padding:5px;}
 legend{color:#003366;font-weight:bold;font-size:12px;}
