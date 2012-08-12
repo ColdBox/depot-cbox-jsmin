@@ -57,7 +57,7 @@ location than layouts.
 			super.Init(arguments.controller);
 
 			setpluginName("JSMin");
-			setpluginVersion("1.7");
+			setpluginVersion("2.0");
 			setpluginDescription("A plugin that minifies js/css files");
 			setpluginAuthor("Luis Majano");
 			setpluginAuthorURL("http://www.ortussolutions.com");

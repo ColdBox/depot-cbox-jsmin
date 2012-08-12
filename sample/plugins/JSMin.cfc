@@ -57,7 +57,7 @@ location than layouts.
 			super.Init(arguments.controller);
 
 			setpluginName("JSMin");
-			setpluginVersion("1.7");
+			setpluginVersion("2.0");
 			setpluginDescription("A plugin that minifies js/css files");
 			setpluginAuthor("Luis Majano");
 			setpluginAuthorURL("http://www.ortussolutions.com");
@@ -234,10 +234,11 @@ location than layouts.
 			}
 
 			// Create concatenated file according to content.
-			tempFileName = hash(sb.toString(), "MD5") & "." & listLast(compressedFiles[1],".");
+			var sbString = trim( replace( sb.toString(), " and(", " and (", "all" ) );
+			tempFileName = hash( sbString, "MD5") & "." & listLast(compressedFiles[1],".");
 
 			//write out buffer
-			fileWrite(instance.cacheDiskLocation & "/" & tempFileName, trim( sb.toString() ));
+			fileWrite(instance.cacheDiskLocation & "/" & tempFileName, sbString);
 			returnAsset = tempFileName;
 		</cfscript>
 		</cflock>

@@ -39,6 +39,11 @@ location than layouts.
 ======================================================================
 CHANGELOG
 ======================================================================
+Version 2.0
+# Update of java libraries
+# Fixes for media queries via CF as it was easier than in the java parser
+# Fixes for \ demarcators in javascript, it now removes them and compresses the line 
+
 Vesion 1.7
 # Addition of fixes to complex css patterns like input[type="button"] p, basically anything in closing brackets
 
