@@ -3,6 +3,11 @@ p #right a {
    display: block;
    text-decoration: none;
 }
+@media only screen and (max-width: 1200px) {
+	#nextprev {
+		display: none;
+	}
+}
 .header luis#right a{
 	display: block;
 }

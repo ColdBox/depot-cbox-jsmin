@@ -1,8 +1,5 @@
 /*
- * Updated January 2010 by Luis Majano for the ColdBox Platform
- * 
- * JSMin.java 2006-02-13
- * 
+ * Updated August 2012 by Luis Majano for the ColdBox Platform
  * Updated 2007-08-20 with updates from jsmin.c (2007-05-22)
  * 
  * Copyright (c) 2006 John Reilly (www.inconspicuous.org)
@@ -40,8 +37,6 @@
 
 package org.coldbox;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -178,7 +173,7 @@ public class JSMin {
 		case 2:
 			theA = theB;
 
-			if (theA == '\'' || theA == '"') {
+			if (theA == '\'' || theA == '"' || theA == '`') {
 				for (;;) {
 					out.write(theA);
 					theA = get();
@@ -188,8 +183,12 @@ public class JSMin {
 					if (theA <= '\n') {
 						throw new UnterminatedStringLiteralException();
 					}
-					if (theA == '\\') {
+					if (theA == '\\' && peek() != '\n') {
 						out.write(theA);
+						theA = get();
+					}
+					else if(theA == '\\' && peek() == '\n'){
+						theA = get();
 						theA = get();
 					}
 				}
@@ -201,17 +200,33 @@ public class JSMin {
                     			theA == ':' || theA == '[' || theA == '!' || 
                     			theA == '&' || theA == '|' || theA == '?' || 
                     			theA == '{' || theA == '}' || theA == ';' || 
-                    			theA == '\n')) {
+                    			theA == '\n') ) {
 				out.write(theA);
 				out.write(theB);
 				for (;;) {
 					theA = get();
-					if (theA == '/') {
+					if(theA == '['){
+						for(;;){
+							out.write(theA);
+							theA = get();
+							if(theA == ']'){ break; }
+							if(theA == '\\'){
+								out.write(theA);
+								theA = get();
+							}
+							if( theA <= '\n' ){
+								throw new UnterminatedRegExpLiteralException();
+							}
+						}
+					}
+					else if (theA == '/') {
 						break;
-					} else if (theA == '\\') {
+					} 
+					else if (theA == '\\') {
 						out.write(theA);
 						theA = get();
-					} else if (theA <= '\n') {
+					} 
+					else if (theA <= '\n') {
 						throw new UnterminatedRegExpLiteralException();
 					}
 					out.write(theA);
@@ -262,6 +277,8 @@ public class JSMin {
 				case '(':
 				case '+':
 				case '-':
+				case '!':
+				case '~':
 					action(1);
 					break;
 				case ' ':
@@ -293,6 +310,7 @@ public class JSMin {
 					case '-':
 					case '"':
 					case '\'':
+					case '`':
 						action(1);
 						break;
 					default:
@@ -324,7 +342,7 @@ public class JSMin {
 	public static void main(String arg[]) {
 		try {
 			InputStream fin = JSMin.class.getResourceAsStream("test.css");
-			JSMin jsmin = new JSMin(fin, System.out, JSMin.CSS);
+			JSMin jsmin = new JSMin(fin, System.out, JSMin.JS);
 			jsmin.jsmin();
 		} 
 		catch (Exception e) {
@@ -338,20 +356,20 @@ public class JSMin {
 	 *
 	 */
 	public class FileTypeException extends Exception {
-	private static final long serialVersionUID = -3974986785129494409L;
-	private int intError;
+		private static final long serialVersionUID = -3974986785129494409L;
+		private int intError;
 	 
-	  FileTypeException(int intErrNo){
-	    intError = intErrNo;
-	  }
-
-	  FileTypeException(String strMessage){
-	    super(strMessage);
-	   }
-
-	   public String toString(){
-	    return "FileTypeException["+intError+"]";
-	   }  
+		FileTypeException(int intErrNo){
+			intError = intErrNo;
+		}
+	
+		FileTypeException(String strMessage){
+			super(strMessage);
+		}
+	
+		public String toString(){
+			return "FileTypeException["+intError+"]";
+		}  
 	}
 
 }
