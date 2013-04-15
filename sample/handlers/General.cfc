@@ -1,2 +1,4 @@
-<cfcomponent extends="coldbox.system.EventHandler" output="false">	<!--- Default Action --->	<cffunction name="index" returntype="void" output="false" hint="My main event">		<cfargument name="event" required="true">		<cfset var rc = event.getCollection()>				<cfset rc.welcomeMessage = "Welcome to ColdBox!">					<cfset event.setView("home")>	</cffunction><!------------------------------------------- PRIVATE EVENTS ------------------------------------------>
-	</cfcomponent>
+component{	function index(event,rc,prc){		rc.welcomeMessage = "Welcome to ColdBox!";		event.setView("home");
+	}	function lessCompile(event,rc,prc){		savecontent variable="less"{			writeoutput("			##header {			  h1 {			    font-size: 26px;			    font-weight: bold;			  }			  p { font-size: 12px;			    a { text-decoration: none;			      &:hover { border-width: 1px }			    }			  }			}			");
+		}		return getMyPlugin("JSMin").compileLessSource( less );
+	}		function lessCompileFileToScreen(event,rc,prc){		var fPath = getSetting("ApplicationPath") & "/includes/css/test.less";		return getMyPlugin("JSMin").compileLess( fileRead( fPath ) );	}}

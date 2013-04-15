@@ -382,20 +382,6 @@ div.grippie {
 	width: 100%;
 }
 
-/* header */
-#header {
-	position: relative;
-	margin: 0; padding: 0;
-	height: 60px;
-}
-#header span#slogan {
-	z-index: 3;
-	position: absolute;
-	left: 5px; bottom: 7px;
-	font: bold 1.2em Verdana, Arial, Tahoma,  Sans-serif;	
-	color: #FFF;	
-}
-
 #header-logo {
 	position: relative;
 	clear: both;
