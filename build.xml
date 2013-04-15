@@ -4,14 +4,8 @@
 	<tstamp prefix="start"/>
 	<property name="project.name" value="jsmin" />
 	<property name="build.label" value="${project.name}-${start.DSTAMP}${start.TSTAMP}"/>
-	
-	<target name="cleanALL">
-  		<delete>
-			<fileset dir="." includes="${project.name}-*.zip"/>
-		</delete>
-	</target>
-		
-	<target name="do.archive" depends="cleanALL">
+
+	<target name="do.archive">
 		<delete dir="sample/plugins/lib" />
 		<mkdir dir="sample/plugins/lib" />
 		<copy todir="sample/plugins/lib" overwrite="true">

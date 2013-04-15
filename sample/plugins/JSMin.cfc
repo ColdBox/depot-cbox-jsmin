@@ -54,8 +54,10 @@ This method basically sends the HTML links and script tags to the head section u
 cfhtmlhead.  You can use this method when calling JSMin via handlers or plugins or any other
 location than layouts.
 
-* compileLessSource(input:LESS) : CSS
-This method compiles LESS source into CSS for you and returns it to you
+* compileLessSource(input:LESS, [ output:absolutePath ]) : CSS
+This method compiles LESS source into CSS for you and returns it to you if no output argument is used, 
+else the compiled source is sent to the output file. An extra goody about this method is that 
+compilation only takes place if the source LESS file has been modified.
 
 * compileLess(input:absolutePath, [ output:absolutePath ]) : [void | CSS]
 
