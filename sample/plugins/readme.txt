@@ -62,6 +62,9 @@ the output file argument and the method will return to you the compiled CSS.
 ======================================================================
 CHANGELOG
 ======================================================================
+Version 3.1
+# Fixed locking issues when generating cached files under high load
+
 Version 3.0
 # Fixes for responsive design
 # Added capabilities for LESS compilation
