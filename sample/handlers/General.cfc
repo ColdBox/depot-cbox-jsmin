@@ -1,4 +1,4 @@
 component{	function index(event,rc,prc){		rc.welcomeMessage = "Welcome to ColdBox!";		event.setView("home");
 	}	function lessCompile(event,rc,prc){		savecontent variable="less"{			writeoutput("			##header {			  h1 {			    font-size: 26px;			    font-weight: bold;			  }			  p { font-size: 12px;			    a { text-decoration: none;			      &:hover { border-width: 1px }			    }			  }			}			");
 		}		return getMyPlugin("JSMin").compileLessSource( less );
-	}		function lessCompileFileToScreen(event,rc,prc){		var fPath = getSetting("ApplicationPath") & "/includes/css/test.less";		return getMyPlugin("JSMin").compileLess( fileRead( fPath ) );	}}
+	}		function lessCompileFileToScreen(event,rc,prc){		var fPath = getSetting("ApplicationPath") & "/includes/css/test.less";		return getMyPlugin("JSMin").compileLess( fPath );	}		function bootstrap(event,rc,prc){		var fPath = getSetting("ApplicationPath") & "/includes/bootstrap/less/bootstrap.less";		var fDestination = getSetting("ApplicationPath") & "includes/cache/bootstrap.css";				getMyPlugin("JSMin").compileLess( fPath, fDestination );				return fileRead( fDestination );	}	}

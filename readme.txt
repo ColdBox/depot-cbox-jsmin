@@ -62,6 +62,10 @@ the output file argument and the method will return to you the compiled CSS.
 ======================================================================
 CHANGELOG
 ======================================================================
+
+Version 4.0
+# Updated the LESS library to use lesscss-java instead as the other library did not allow for relative imports.
+
 Version 3.1
 # Fixed locking issues when generating cached files under high load
 
